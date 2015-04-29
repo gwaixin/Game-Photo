@@ -31,4 +31,34 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	
+	public $components = array(
+		'Session',
+		'Auth'	=> array(
+			'loginRedirect' => array(
+				'controller'	=> 'games',
+				'action'		=> 'index'
+			),
+			'logoutRedirect' => array(
+				'controller'	=> 'users',
+				'action'		=> 'index'
+			),
+			'authenticate'	=> array(
+				'Form'	=> array(
+					'fields' => array(
+						'username' => 'username', //Default is 'username' in the userModel
+	                  	'password' => 'password'
+					),
+					'passwordHasher'	=> 'Blowfish'
+				)
+			)
+		)
+	);
+	
+	public function beforeFilter() {
+		$this->Auth->allow('index', 'view');
+		$this->Auth->allow('register', 'view');
+	}
+	
+	
 }
