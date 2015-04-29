@@ -29,6 +29,8 @@
  * ...and connect the rest of 'Pages' controller's URLs.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+	
+	Router::connect('/profile/', array('controller' => 'games', 'action' => 'profile', 'home'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on
