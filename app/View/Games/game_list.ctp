@@ -18,7 +18,7 @@
 					</a>
 				</span>
 				<span>
-					<a href='javascript:;'>
+					<a href='edit/?id=<?php echo $d['Game']['id']; ?>'>
 						<i class="fa fa-pencil"></i>
 					</a>
 				</span>

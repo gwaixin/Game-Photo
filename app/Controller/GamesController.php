@@ -77,7 +77,7 @@ class GamesController extends AppController{
 			);
 			if($this->Game->save($dataRow)){
 				$this->Session->setFlash('successfuly updated');
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'gameList'));
 			}
 			
 		}
