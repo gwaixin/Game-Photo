@@ -16,14 +16,29 @@ class UsersController extends AppController {
 	}
 
 	public function index() {
+		if (!$this->Auth->login()) {
+			$this->redirect(array('action' => 'login'));
+		}
+	}
+	
+	public function login() {
 		if ($this->request->is('post')) {
+			if ($this->Auth->login()) {
+				$data = $this->request->data;
+				$user = $this->User->find('first', array(
+					'conditions' => array(
+						'username' => ($data['User']['username'])
+					)
+				));
+				$this->Session->write('User.id', $user['User']['id']);
+				$this->Session->write('User.name', $user['User']['name']);
+				$this->Session->write('User.email', $user['User']['email']);
+				$this->Session->write('User.isLogin', true);
+				return $this->redirect($this->Auth->redirect());
+			}
 			
-	        if ($this->Auth->login()) {
-	            return $this->redirect($this->Auth->redirect());
-	        }
-	     
-	        $this->Session->setFlash(__('Invalid username or password, try again'));
-	    }
+			$this->Session->setFlash(__('Invalid username or password, try again')); 
+		}
 	}
 	
 	public function register() {
@@ -51,6 +66,11 @@ class UsersController extends AppController {
 	}
 	
 	public function logout() {
-		return $this->redirect($this->Auth->logout());
+		if ($this->Session->read('User.isLogin')) {
+			$this->Session->delete('User');
+			return $this->redirect($this->Auth->logout());
+			exit();
+		}
+		
 	}
 }
