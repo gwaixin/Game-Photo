@@ -9,6 +9,14 @@ class GamesController extends AppController{
 	
 	protected $imgpath;
 	
+	
+	public $components = array('Paginator');
+	
+	public $paginate = array(
+		'limit' => 6
+		//'order' => array('Contact.contact_name' => 'asc')
+	);
+	
 	public function profile(){
 		$this->layout = 'main';
 		if($this->request->is('post')){
@@ -27,13 +35,13 @@ class GamesController extends AppController{
 			$data = array(
 					'name' => $row['name'],
 					'image' => $this->imgpath,
-					'description' => '',
-					'user_id' => 'test',
+					'description' => $row['description'],
+					'user_id' => $this->Session->read('User.id'),
 					'stat' => 'b'
 			);
 			
 			$this->Game->save($data);
-			return $this->redirect(array('action' => 'list'));
+			return $this->redirect(array('action' => 'gameList'));
 		}
 		
 	}
@@ -42,7 +50,7 @@ class GamesController extends AppController{
 	public function index(){
 		$this->layout = 'main';
 	}
-	
+
 	public function edit($id = null){
 		
 		$id = $this->params['url']['id'];
@@ -83,6 +91,21 @@ class GamesController extends AppController{
 			
 		}
 	}
+	
+		public function gameList() {
+		$this->layout = 'main';
+		$this->Paginator->settings = array(
+			/*'conditions' => array(
+				'Game.user_id =' => $this->Session->read('User.id')
+				//'Contact.contact_name like' => "%{$keyword}%"
+			),*/
+			'limit' => 6
+		);
+		$data = $this->Paginator->paginate('Game');
+		$this->set(compact('data'));
+		
+	}
+	
 	
 	public function UploadFile($params) {
 		 $image = array_shift($params);

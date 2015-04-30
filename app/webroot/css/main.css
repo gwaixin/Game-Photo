@@ -1,9 +1,26 @@
 
-.img-cont{
+.img-cont {
 	max-width: 150px;
 }
 
-.form-add-width{
+.form-add-width {
 	max-width:400px;
 	padding:50px 0;
+}
+
+.game-list {
+	max-width:200px;
+	height: auto;
+	float: left;
+	margin: 15px;
+}
+
+.game-options span {
+	display: inline-block;
+    display: -moz-inline-box;
+    *display: inline; /* For IE7 */
+    zoom: 1; /* Trigger hasLayout */
+    width: 30%;
+    text-align: center;
+  	background-color: rgba(0,0,0, .2);
 }
