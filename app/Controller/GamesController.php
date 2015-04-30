@@ -9,9 +9,6 @@ class GamesController extends AppController{
 	
 	protected $imgpath;
 	
-	
-	public $components = array('Paginator');
-	
 	public $paginate = array(
 		'limit' => 6
 		//'order' => array('Contact.contact_name' => 'asc')
@@ -50,6 +47,7 @@ class GamesController extends AppController{
 	public function index(){
 		$this->layout = 'main';
 	}
+<<<<<<< HEAD
 	
 <<<<<<< HEAD
 	public function gameList() {
@@ -68,6 +66,9 @@ class GamesController extends AppController{
 	
 	public function viewgame(){
 =======
+=======
+
+>>>>>>> 0f87600eba7fa3c7edc39a0046e3c33da77215f9
 	public function edit($id = null){
 		
 		$id = $this->params['url']['id'];
@@ -82,7 +83,10 @@ class GamesController extends AppController{
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->set('data', $detail);
+<<<<<<< HEAD
 >>>>>>> origin/nr_edit
+=======
+>>>>>>> 0f87600eba7fa3c7edc39a0046e3c33da77215f9
 		
 		if($this->request->is('post')){
 			$data = $this->request->data;
@@ -109,6 +113,21 @@ class GamesController extends AppController{
 			
 		}
 	}
+	
+		public function gameList() {
+		$this->layout = 'main';
+		$this->Paginator->settings = array(
+			/*'conditions' => array(
+				'Game.user_id =' => $this->Session->read('User.id')
+				//'Contact.contact_name like' => "%{$keyword}%"
+			),*/
+			'limit' => 6
+		);
+		$data = $this->Paginator->paginate('Game');
+		$this->set(compact('data'));
+		
+	}
+	
 	
 	public function UploadFile($params) {
 		 $image = array_shift($params);
