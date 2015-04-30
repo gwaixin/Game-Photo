@@ -1,7 +1,11 @@
 <?php
 
 
+
 class GamesController extends AppController{
+	public $components = array('RequestHandler','Paginator');
+	
+	public $helpers  = array('Html', 'Form');
 	
 	protected $imgpath;
 	
@@ -39,8 +43,45 @@ class GamesController extends AppController{
 		$this->layout = 'main';
 	}
 	
-	public function viewgame(){
+	public function edit($id = null){
 		
+		$id = $this->params['url']['id'];
+
+		$this->layout = 'main';
+		if(!$id){
+			$this->redirect(array('action' => 'index'));
+		}
+		
+		$detail = $this->Game->findById($id);
+		if(!$detail){
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->set('data', $detail);
+		
+		if($this->request->is('post')){
+			$data = $this->request->data;
+			$imgPath = $data['Games']['imgVal'];
+
+			if($data['Games']['Image']['tmp_name'] !== ''){
+				unset($data['Games']['imgVal']);
+				$this->UploadFile($data['Games']);
+				$imgPath = $this->imgpath;
+			}
+			
+			$this->Game->id = $id;
+			$dataRow = array(
+					'name' => $data['name'],
+					'image' => $imgPath,
+					'description' => $data['description'],
+					'user_id' => 'test',
+					'stat' => 'b'
+			);
+			if($this->Game->save($dataRow)){
+				$this->Session->setFlash('successfuly updated');
+				$this->redirect(array('action' => 'index'));
+			}
+			
+		}
 	}
 	
 	public function UploadFile($params) {
