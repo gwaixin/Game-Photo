@@ -9,9 +9,6 @@ class GamesController extends AppController{
 	
 	protected $imgpath;
 	
-	
-	public $components = array('Paginator');
-	
 	public $paginate = array(
 		'limit' => 6
 		//'order' => array('Contact.contact_name' => 'asc')
